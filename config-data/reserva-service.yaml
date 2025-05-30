@@ -1,10 +1,24 @@
+spring:
+  application:
+    name: reserva-service # Nombre de aplicación añadido
+  # Aquí deberías añadir la configuración de datasource y jpa si este servicio usa base de datos
+  # datasource:
+  #   url: jdbc:postgresql://localhost:5432/reservaKart
+  #   username: postgres
+  #   password: clave
+  # jpa:
+  #   hibernate:
+  #     ddl-auto: update
+  #   show-sql: true
+
 server:
-  port: ${PORT:${SERVER_PORT:0}}
+  port: ${PORT:${SERVER_PORT:0}} # Puerto dinámico
+
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
-    service-url:
-      default-zone: http://localhost:8761/eureka
+    serviceUrl: # Corregido a camelCase
+      defaultZone: http://localhost:8080/eureka/ # Actualizado al puerto de Eureka Server
   instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}} # Corregido a camelCase

@@ -1,26 +1,23 @@
 spring:
   application:
     name: cliente-service
-
   datasource:
     url: jdbc:postgresql://localhost:5432/clienteKart
     username: postgres
-    password: clave
-
+    password: clave # Considera usar Spring Cloud Config Server para encriptar contraseñas
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: update # 'validate' o 'none' es más seguro para producción
     show-sql: true
 
 server:
-  port: ${PORT:${SERVER_PORT:0}}
+  port: ${PORT:${SERVER_PORT:0}} # Puerto dinámico
 
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
-    service-url:
-      default-zone: http://localhost:8761/eureka
-
+    serviceUrl: # Corregido a camelCase
+      defaultZone: http://localhost:8080/eureka/ # Actualizado al puerto de Eureka Server
   instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}} # Corregido a camelCase

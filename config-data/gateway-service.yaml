@@ -1,24 +1,14 @@
-server:
-  port: 8080
-
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      default-zone: http://localhost:8761/eureka
-  instance:
-    hostname: localhost
-
 spring:
+  application:
+    name: api-gateway-service # Nombre de aplicación añadido
   cloud:
     gateway:
       discovery:
         locator:
-          enabled: true
+          enabled: true # Permite que el Gateway encuentre servicios en Eureka
       routes:
         - id: cliente-service
-          uri: lb://cliente-service
+          uri: lb://cliente-service # lb:// para Load Balancing con Eureka
           predicates:
             - Path=/cliente/**
         - id: reserva-service
@@ -41,3 +31,24 @@ spring:
           uri: lb://descuento-especial-service
           predicates:
             - Path=/api/v1/descuentos/especial/**
+  # Zipkin/Sleuth para trazabilidad distribuida (opcional, pero recomendado)
+  # management:
+  #   tracing:
+  #     sampling:
+  #       probability: 1.0 # Manda todas las trazas a Zipkin en desarrollo
+  #   zipkin:
+  #     tracing:
+  #       endpoint: http://localhost:9411/api/v2/spans # URL de tu servidor Zipkin
+
+server:
+  port: 8090 # Puerto único para el API Gateway (no puede ser 8080 si Eureka lo usa)
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true # El Gateway se registra en Eureka
+    serviceUrl: # Corregido a camelCase
+      defaultZone: http://localhost:8080/eureka/ # Actualizado al puerto de Eureka Server
+  instance:
+    # hostname: localhost # Opcional, puede ser inferido
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}} # Corregido a camelCase
