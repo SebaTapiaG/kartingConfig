@@ -10,3 +10,8 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
     wait-time-in-ms-when-sync-empty: 0
+management: # <--- AÑADE ESTO
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env # Asegúrate de que 'env' esté aquí
