@@ -1,8 +1,18 @@
 server:
   port: 8761
 eureka:
+  instance:
+    # Es una buena práctica definir el hostname explícitamente,
+    # especialmente si quieres que sea consistente. Para desarrollo local, 'localhost' es común.
+    hostname: localhost
   client:
     fetch-registry: false
     register-with-eureka: false
-    service-url:
-      default-zone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    # 'service-url' debe ser 'serviceUrl' (camelCase)
+    # 'default-zone' debe ser 'defaultZone' (camelCase)
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    # En un entorno de un solo nodo, es bueno desactivar esto para evitar mensajes de error
+    # sobre no poder replicar a peers que no existen y acelerar el arranque.
+    wait-time-in-ms-when-sync-empty: 0
