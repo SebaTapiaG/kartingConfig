@@ -1,18 +1,17 @@
 server:
-  port: 8761
+  port: 8080 # Asegúrate que este sea el puerto donde REALMENTE está corriendo Eureka (el log dice 8080)
 eureka:
   instance:
-    # Es una buena práctica definir el hostname explícitamente,
-    # especialmente si quieres que sea consistente. Para desarrollo local, 'localhost' es común.
     hostname: localhost
+    # Si quieres que la URL de estado y home muestren el puerto 8080, puedes añadir:
+    # non-secure-port: ${server.port} # O directamente 8080
   client:
-    fetch-registry: false
-    register-with-eureka: false
-    # 'service-url' debe ser 'serviceUrl' (camelCase)
-    # 'default-zone' debe ser 'defaultZone' (camelCase)
+    register-with-eureka: false # MUY IMPORTANTE: un servidor standalone no se registra
+    fetch-registry: false       # MUY IMPORTANTE: un servidor standalone no busca el registro de otros
     serviceUrl:
+      # Esta es la URL que los clientes usarán para conectarse a ESTE servidor Eureka.
+      # Debe usar el puerto donde ESTE servidor Eureka está corriendo (8080 en tu caso).
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
-    # En un entorno de un solo nodo, es bueno desactivar esto para evitar mensajes de error
-    # sobre no poder replicar a peers que no existen y acelerar el arranque.
+    # Útil para que arranque más rápido en un solo nodo
     wait-time-in-ms-when-sync-empty: 0
