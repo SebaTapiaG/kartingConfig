@@ -31,14 +31,6 @@ spring:
           uri: lb://descuento-especial-service
           predicates:
             - Path=/api/v1/descuentos/especial/**
-  # Zipkin/Sleuth para trazabilidad distribuida (opcional, pero recomendado)
-  # management:
-  #   tracing:
-  #     sampling:
-  #       probability: 1.0 # Manda todas las trazas a Zipkin en desarrollo
-  #   zipkin:
-  #     tracing:
-  #       endpoint: http://localhost:9411/api/v2/spans # URL de tu servidor Zipkin
 
 server:
   port: 8090 # Puerto único para el API Gateway (no puede ser 8080 si Eureka lo usa)
