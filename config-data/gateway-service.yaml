@@ -1,6 +1,6 @@
 spring:
   application:
-    name: api-gateway-service # Nombre de aplicación añadido
+    name: gateway-service # Nombre de aplicación añadido
   cloud:
     gateway:
       discovery:
