@@ -1,14 +1,14 @@
 spring:
   application:
-    name: gateway-service # Nombre de aplicación añadido
+    name: gateway-service
   cloud:
     gateway:
       discovery:
         locator:
-          enabled: true # Permite que el Gateway encuentre servicios en Eureka
+          enabled: true
       routes:
         - id: cliente-service
-          uri: lb://cliente-service # lb:// para Load Balancing con Eureka
+          uri: lb://cliente-service
           predicates:
             - Path=/cliente/**
         - id: reserva-service
@@ -33,14 +33,13 @@ spring:
             - Path=/api/v1/descuentos/especial/**
 
 server:
-  port: 8090 # Puerto único para el API Gateway (no puede ser 8080 si Eureka lo usa)
+  port: 8090
 
 eureka:
   client:
     fetch-registry: true
-    register-with-eureka: true # El Gateway se registra en Eureka
-    serviceUrl: # Corregido a camelCase
-      defaultZone: http://localhost:8080/eureka/ # Actualizado al puerto de Eureka Server
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka/
   instance:
-    # hostname: localhost # Opcional, puede ser inferido
-    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}} # Corregido a camelCase
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
