@@ -13,34 +13,57 @@ eureka:
 spring:
   application:
     name: gateway-service
+
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
       routes:
+        # Cliente Service
         - id: cliente-service
           uri: lb://cliente-service
           predicates:
             - Path=/cliente/**
+          filters:
+            - StripPrefix=1
+
+        # Reserva Service
         - id: reserva-service
           uri: lb://reserva-service
           predicates:
             - Path=/reserva/**
+          filters:
+            - StripPrefix=1
+
+        # Descuento Grupo Service
         - id: descuento-persona-service
           uri: lb://descuento-persona-service
           predicates:
-            - Path=/api/v1/descuentos/grupo/**
+            - Path=/grupo/**
+          filters:
+            - StripPrefix=1
+
+        # Tarifa Service
         - id: tarifa-service
           uri: lb://tarifa-service
           predicates:
-            - Path=/api/v1/tarifas/**
+            - Path=/tarifa/**
+          filters:
+            - StripPrefix=1
+
+        # Descuento Frecuente Service
         - id: descuento-frecuente-service
           uri: lb://descuento-frecuente-service
           predicates:
-            - Path=/api/v1/descuentos/frecuente/**
+            - Path=/frecuente/**
+          filters:
+            - StripPrefix=1
+
+        # Descuento Especial Service
         - id: descuento-especial-service
           uri: lb://descuento-especial-service
           predicates:
-            - Path=/api/v1/descuentos/especial/**
-
+            - Path=/especial/**
+          filters:
+            - StripPrefix=1
