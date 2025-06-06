@@ -66,6 +66,13 @@ spring:
             - Path=/especial/**
           filters:
             - StripPrefix=1
+        #Rack Service
+        - id: rack-service
+          uri: lb://rack-service
+          predicates:
+            - Path=/rack/**
+          filters:
+            - StripPrefix=1
 
 eureka:
   client:
