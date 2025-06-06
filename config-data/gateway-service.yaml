@@ -73,6 +73,13 @@ spring:
             - Path=/rack/**
           filters:
             - StripPrefix=1
+        #Reporte Service
+        - id: reporte-service
+          uri: lb://reporte-service
+          predicates:
+            - Path=/reporte/**
+          filters:
+            - StripPrefix=1
 
 eureka:
   client:
