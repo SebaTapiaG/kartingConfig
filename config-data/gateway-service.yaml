@@ -4,76 +4,65 @@ server:
 spring:
   application:
     name: gateway-service
-
   cloud:
+    config:
+      uri: http://config-server-service:8081
+      fail-fast: true
     gateway:
       discovery:
         locator:
           enabled: true
-        default-filters:
-          - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       globalcors:
         cors-configurations:
           '[/**]':
             allowedOrigins: '*'
-            allowedMethods: "*"
-            allowedHeaders: "*"
+            allowedMethods: '*'
+            allowedHeaders: '*'
       routes:
-        # Cliente Service
         - id: cliente-service
           uri: lb://cliente-service
           predicates:
             - Path=/cliente/**
           filters:
             - StripPrefix=1
-
-        # Reserva Service
         - id: reserva-service
           uri: lb://reserva-service
           predicates:
             - Path=/reserva/**
           filters:
             - StripPrefix=1
-
-        # Descuento Grupo Service
         - id: descuento-persona-service
           uri: lb://descuento-persona-service
           predicates:
             - Path=/grupo/**
           filters:
             - StripPrefix=1
-
-        # Tarifa Service
         - id: tarifa-service
           uri: lb://tarifa-service
           predicates:
             - Path=/tarifa/**
           filters:
             - StripPrefix=1
-
-        # Descuento Frecuente Service
         - id: descuento-frecuente-service
           uri: lb://descuento-frecuente-service
           predicates:
             - Path=/frecuente/**
           filters:
             - StripPrefix=1
-
-        # Descuento Especial Service
         - id: descuento-especial-service
           uri: lb://descuento-especial-service
           predicates:
             - Path=/especial/**
           filters:
             - StripPrefix=1
-        #Rack Service
         - id: rack-service
           uri: lb://rack-service
           predicates:
             - Path=/rack/**
           filters:
             - StripPrefix=1
-        #Reporte Service
         - id: reporte-service
           uri: lb://reporte-service
           predicates:
@@ -86,6 +75,7 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8080/eureka/
+      defaultZone: http://eureka-server-service:8080/eureka/
   instance:
+    preferIpAddress: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}

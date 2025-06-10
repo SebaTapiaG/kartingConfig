@@ -1,23 +1,28 @@
+server:
+  port: 0 # Puerto dinámico
+
 spring:
   application:
-    name: descuento-persona-service # Nombre de aplicación añadido
+    name: descuento-persona-service
+  cloud:
+    config:
+      uri: http://config-server-service:8081
+      fail-fast: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/descuentoPersonaKart
-    username: postgres
-    password: clave # Considera usar Spring Cloud Config Server para encriptar contraseñas
+    url: ${SPRING_DATASOURCE_URL_DESCUENTOP}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: update # 'validate' o 'none' es más seguro para producción
-    show-sql: true
-
-server:
-  port: ${PORT:${SERVER_PORT:0}} # Puerto dinámico
+      ddl-auto: validate
+    show-sql: false
 
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
-    serviceUrl: # Corregido a camelCase
-      defaultZone: http://localhost:8080/eureka/ # Actualizado al puerto de Eureka Server
+    service-url:
+      defaultZone: http://eureka-server-service:8080/eureka/
   instance:
-    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}} # Corregido a camelCase
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}# Corregido a camelCase

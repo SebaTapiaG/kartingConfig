@@ -1,17 +1,16 @@
 server:
   port: 8080
+
 eureka:
   instance:
-    hostname: localhost
+    hostname: eureka-server-service
+    preferIpAddress: true
   client:
     register-with-eureka: false
     fetch-registry: false
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-  server:
-    wait-time-in-ms-when-sync-empty: 0
-management: # <--- AÑADE ESTO
-  endpoints:
-    web:
-      exposure:
-        include: health,info,env # Asegúrate de que 'env' esté aquí
+      defaultZone: http://eureka-server-service:8080/eureka/
+
+spring:
+  application:
+    name: eureka-server
