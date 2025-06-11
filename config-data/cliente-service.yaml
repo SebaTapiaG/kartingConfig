@@ -14,7 +14,7 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: validate # Más seguro para producción
+      ddl-auto: update # Más seguro para producción
     show-sql: false # Desactivar en producción
 
 eureka:
